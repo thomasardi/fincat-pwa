@@ -1,8 +1,143 @@
-*, *::before, *::after { box-sizing: border-box; }
-body { margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+*, *::before, *::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overscroll-behavior: none;
+}
+
+body {
+  font-family: 'Nunito', 'Poppins', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #FFFBF5;
+  overflow-x: hidden;
+}
+
 input, select, textarea, button { font-family: inherit; }
-input[type=range] { -webkit-appearance: none; height: 6px; border-radius: 4px; background: #E7E5E4; outline: none; }
-input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #F97316; cursor: pointer; border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
-select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2378716C' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px !important; }
+
+/* âââ Range Slider â fix touch drag scrolling page âââââ */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  touch-action: pan-x;
+  height: 6px;
+  border-radius: 999px;
+  background: #E7E5E4;
+  outline: none;
+  width: 100%;
+  cursor: pointer;
+  display: block;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #F97316;
+  cursor: pointer;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 10px rgba(249,115,22,0.45);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+input[type="range"]::-webkit-slider-thumb:active {
+  transform: scale(1.3);
+  box-shadow: 0 4px 18px rgba(249,115,22,0.6);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #F97316;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 10px rgba(249,115,22,0.45);
+}
+
+/* âââ Select arrow âââââââââââââââââââââââââââââââââââââ */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2378716C' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px !important;
+}
+
+/* âââ Scrollbar hide âââââââââââââââââââââââââââââââââââ */
 ::-webkit-scrollbar { display: none; }
 * { scrollbar-width: none; }
+
+/* âââ Horizontal scroll container â prevent page drag ââ */
+.scroll-x {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  scrollbar-width: none;
+}
+.scroll-x::-webkit-scrollbar { display: none; }
+
+/* âââ Keyframes ââââââââââââââââââââââââââââââââââââââââ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pop {
+  0%   { transform: scale(0.82); opacity: 0; }
+  65%  { transform: scale(1.06); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+@keyframes bounceY {
+  0%, 100% { transform: translateY(0); }
+  45%       { transform: translateY(-8px); }
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(249,115,22,0.3); }
+  50%       { box-shadow: 0 0 0 10px rgba(249,115,22,0); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* âââ Animation classes ââââââââââââââââââââââââââââââââ */
+.anim-fadeIn    { animation: fadeIn 0.22s ease both; }
+.anim-fadeInUp  { animation: fadeInUp 0.38s cubic-bezier(0.34,1.56,0.64,1) both; }
+.anim-pop       { animation: pop 0.32s cubic-bezier(0.34,1.56,0.64,1) both; }
+.anim-slideUp   { animation: slideUp 0.36s cubic-bezier(0.22,1,0.36,1) both; }
+.anim-bounce    { animation: bounceY 2.2s ease-in-out infinite; }
+.anim-pulseGlow { animation: pulseGlow 2s ease-in-out infinite; }
+
+/* âââ Button press âââââââââââââââââââââââââââââââââââââ */
+.btn-tap {
+  transition: transform 0.1s ease, filter 0.1s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+.btn-tap:active { transform: scale(0.93); filter: brightness(0.95); }
+
+/* âââ Input focus ring âââââââââââââââââââââââââââââââââ */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #F97316 !important;
+  box-shadow: 0 0 0 3px rgba(249,115,22,0.18) !important;
+}
+
+/* âââ Gradient text ââââââââââââââââââââââââââââââââââââ */
+.grad-text {
+  background: linear-gradient(135deg, #F97316 0%, #FB923C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
