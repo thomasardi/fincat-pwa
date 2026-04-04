@@ -2,52 +2,88 @@
 import { useEffect, useRef, useState } from 'react'
 import { track } from '@/lib/posthog'
 
+declare global {
+  interface Window { adsbygoogle: unknown[] }
+}
+
 export default function AdSlot() {
-  const [ready, setReady]       = useState(false)
-  const [blocked, setBlocked]   = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const lastClick                = useRef(0)
-  const mountTime                = useRef(Date.now())
+  const adRef   = useRef<HTMLModElement>(null)
+  const pushed  = useRef(false)
+  const [visible, setVisible] = useState(true)
+  const [ready,   setReady]   = useState(false)
 
   useEffect(() => {
-    // 30s delay before ad becomes clickable
-    const timer = setTimeout(() => setReady(true), 30000)
-    const onScroll = () => { if (window.scrollY > 120) setScrolled(true) }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => { clearTimeout(timer); window.removeEventListener('scroll', onScroll) }
+    // Wait a tick for the AdSense script to be ready
+    const timer = setTimeout(() => {
+      try {
+        if (pushed.current) return
+        pushed.current = true
+        ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+        setReady(true)
+        track('ad_impression')
+      } catch {
+        setVisible(false)
+      }
+    }, 1800)
+
+    // If ad slot stays empty after 5s, hide the frame
+    const hideTimer = setTimeout(() => {
+      const el = adRef.current
+      if (el && el.offsetHeight < 10) {
+        setVisible(false)
+        track('ad_blocked_or_empty')
+      }
+    }, 5000)
+
+    return () => { clearTimeout(timer); clearTimeout(hideTimer) }
   }, [])
 
-  const handleClick = () => {
-    if (!ready || !scrolled) return
-    const now = Date.now()
-    // 60s cooldown between clicks
-    if (now - lastClick.current < 60000) {
-      setBlocked(true)
-      setTimeout(() => setBlocked(false), 4000)
-      return
-    }
-    lastClick.current = now
-    track('ad_click_verified', { time_since_mount: now - mountTime.current })
-    // TODO: trigger actual ad SDK here
-  }
+  if (!visible) return null
 
   return (
-    <div style={{ marginTop: 16, borderRadius: 12, overflow: 'hidden', border: '1px solid #E7E5E4', background: '#F9FAFB' }}>
-      <div style={{ padding: '5px 10px', background: '#E7E5E4', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontSize: 10, color: '#78716C' }}>Iklan</span>
-        {!ready && <span style={{ fontSize: 10, color: '#78716C' }}>⏳ {Math.round(30)}s</span>}
+    <div
+      style={{
+        marginTop: 16,
+        borderRadius: 14,
+        overflow: 'hidden',
+        border: '1px solid #E7E5E4',
+        background: '#FAFAF9',
+        minHeight: ready ? undefined : 60,
+        transition: 'min-height 0.3s ease',
+      }}
+    >
+      <div style={{
+        padding: '3px 10px',
+        background: '#F5F5F4',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 4,
+      }}>
+        <span style={{ fontSize: 9, color: '#A8A29E', fontWeight: 600, letterSpacing: 0.5, textTransform: 'uppercase' }}>
+          Iklan
+        </span>
       </div>
-      <div onClick={handleClick}
-        style={{ padding: '16px', textAlign: 'center', cursor: ready && scrolled ? 'pointer' : 'default', minHeight: 64, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        {blocked
-          ? <span style={{ fontSize: 12, color: '#EF4444' }}>Tunggu 60 detik sebelum klik lagi ⏱</span>
-          : !ready
-          ? <span style={{ fontSize: 13, color: '#A8A29E' }}>Menyiapkan iklan...</span>
-          : !scrolled
-          ? <span style={{ fontSize: 13, color: '#A8A29E' }}>Scroll untuk aktifkan iklan</span>
-          : <span style={{ fontSize: 13, color: '#78716C' }}>[ AdMob / Unity Ads Slot ]</span>
-        }
-      </div>
+
+      <ins
+        ref={adRef}
+        className="adsbygoogle"
+        style={{ display: 'block' }}
+        data-ad-client="ca-pub-1808788356045617"
+        data-ad-slot="auto"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
+
+      {!ready && (
+        <div style={{
+          padding: '16px',
+          textAlign: 'center',
+          color: '#D6D3D1',
+          fontSize: 12,
+        }}>
+          Â·Â·Â·
+        </div>
+      )}
     </div>
   )
 }
