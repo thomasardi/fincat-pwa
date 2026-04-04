@@ -1,10 +1,11 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseUrl     = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
+/* âââ Types ââââââââââââââââââââââââââââââââââââââââââââââ */
 export type Simulation = {
   id?: string
   user_id?: string
@@ -34,6 +35,21 @@ export type FeatureRequest = {
   user_id?: string
 }
 
+export type Review = {
+  rating: number
+  message?: string
+  session_id?: string
+}
+
+/* âââ Helpers âââââââââââââââââââââââââââââââââââââââââââââ */
+const getSessionId = () => {
+  if (typeof window === 'undefined') return ''
+  let sid = sessionStorage.getItem('fin_sid')
+  if (!sid) { sid = crypto.randomUUID(); sessionStorage.setItem('fin_sid', sid) }
+  return sid
+}
+
+/* âââ CRUD âââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const saveSimulation = async (sim: Simulation) => {
   const { data, error } = await supabase.from('simulations').insert(sim).select().single()
   return { data, error }
@@ -49,8 +65,13 @@ export const saveFeatureRequest = async (req: FeatureRequest) => {
   return { data, error }
 }
 
+export const saveReview = async (rv: Review) => {
+  const payload = { ...rv, session_id: rv.session_id || getSessionId() }
+  const { data, error } = await supabase.from('reviews').insert(payload).select().single()
+  return { data, error }
+}
+
 export const trackUsage = async (feature: string, action: string, metadata?: object) => {
-  const sessionId = typeof window !== 'undefined' ? (sessionStorage.getItem('fin_sid') || crypto.randomUUID()) : ''
-  if (typeof window !== 'undefined') sessionStorage.setItem('fin_sid', sessionId)
+  const sessionId = getSessionId()
   await supabase.from('feature_usage').insert({ feature, action, session_id: sessionId, metadata })
 }
