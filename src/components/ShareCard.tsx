@@ -26,13 +26,13 @@ export default function ShareCard({ data, onClose }: { data: ShareData; onClose:
   const [copied, setCopied] = useState(false)
 
   const waText = encodeURIComponent(
-    `ð± Aku pakai FinCat buat simulasi investasi!\n\n` +
-    `ð° Modal: Rp ${fmt(data.principal)}\n` +
-    `ð Bunga: ${data.rate}% / tahun\n` +
-    `â³ Selama: ${data.period} ${data.unit}\n\n` +
-    `ð¯ Saldo akhir: Rp ${fmt(data.finalBalance)}\n` +
-    `â¨ Total bunga: Rp ${fmt(data.totalInterest)}\n` +
-    `ð Return: +${data.growth.toFixed(1)}%\n\n` +
+    `🐱 Aku pakai FinCat buat simulasi investasi!\n\n` +
+    `💰 Modal: Rp ${fmt(data.principal)}\n` +
+    `📈 Bunga: ${data.rate}% / tahun\n` +
+    `⏳ Selama: ${data.period} ${data.unit}\n\n` +
+    `🎯 Saldo akhir: Rp ${fmt(data.finalBalance)}\n` +
+    `✨ Total bunga: Rp ${fmt(data.totalInterest)}\n` +
+    `🚀 Return: +${data.growth.toFixed(1)}%\n\n` +
     `Hitung sendiri di: ${APP_URL}`
   )
 
@@ -57,8 +57,8 @@ export default function ShareCard({ data, onClose }: { data: ShareData; onClose:
   const handleOtherShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: 'FinCat â Simulasi Investasi',
-        text: `Saldo investasiku bisa jadi Rp ${fmt(data.finalBalance)} dalam ${data.period} ${data.unit}! Hitung sendiri ð`,
+        title: 'FinCat — Simulasi Investasi',
+        text: `Saldo investasiku bisa jadi Rp ${fmt(data.finalBalance)} dalam ${data.period} ${data.unit}! Hitung sendiri 👇`,
         url: APP_URL,
       }).then(() => track('share_native'))
     }
@@ -84,7 +84,7 @@ export default function ShareCard({ data, onClose }: { data: ShareData; onClose:
         }}/>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
-          <span style={{ fontSize: 22 }}>ð±</span>
+          <span style={{ fontSize: 22 }}>🐱</span>
           <div>
             <p style={{ margin: 0, fontSize: 13, fontWeight: 800, color: '#F97316' }}>FinCat</p>
             <p style={{ margin: 0, fontSize: 10, color: '#A8A29E' }}>fincat-pwa.vercel.app</p>
@@ -127,19 +127,19 @@ export default function ShareCard({ data, onClose }: { data: ShareData; onClose:
             padding: '6px 14px',
             borderRadius: 20,
           }}>
-            +{data.growth.toFixed(1)}% ð
+            +{data.growth.toFixed(1)}% 🚀
           </div>
         </div>
       </div>
 
       <p style={{ fontSize: 16, fontWeight: 800, color: '#1C1917', margin: '0 0 4px', textAlign: 'center' }}>
-        Bagikan hasilmu! ð
+        Bagikan hasilmu! 🎉
       </p>
       <p style={{ fontSize: 13, color: '#78716C', margin: '0 0 18px', textAlign: 'center' }}>
         Ajak teman melek finansial bareng
       </p>
 
-      {/* WA share â primary */}
+      {/* WA share — primary */}
       <button
         className="btn-tap"
         onClick={handleWA}
@@ -153,7 +153,7 @@ export default function ShareCard({ data, onClose }: { data: ShareData; onClose:
           boxShadow: '0 4px 18px rgba(37,211,102,0.35)',
         }}
       >
-        <span style={{ fontSize: 20 }}>ð¬</span> Share ke WhatsApp
+        <span style={{ fontSize: 20 }}>💬</span> Share ke WhatsApp
       </button>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
@@ -171,7 +171,7 @@ export default function ShareCard({ data, onClose }: { data: ShareData; onClose:
             transition: 'all 0.2s ease',
           }}
         >
-          {copied ? 'â Tersalin!' : 'ð Salin Link'}
+          {copied ? '✅ Tersalin!' : '🔗 Salin Link'}
         </button>
 
         {/* Native share (if available) */}
@@ -187,7 +187,7 @@ export default function ShareCard({ data, onClose }: { data: ShareData; onClose:
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
             }}
           >
-            ð¤ Lainnya
+            📤 Lainnya
           </button>
         ) : (
           <button
