@@ -6,14 +6,14 @@ import { track } from '@/lib/posthog'
 import AdSlot from './AdSlot'
 import ShareCard, { ShareData } from './ShareCard'
 
-/* âââ Design tokens ââââââââââââââââââââââââââââââââââââââ */
+/* ─── Design tokens ────────────────────────────────────── */
 const C = {
   orange: '#F97316', green: '#16A34A', blue: '#3B82F6',
   text: '#1C1917', muted: '#78716C', border: '#E7E5E4',
   bg: '#FFFBF5', card: '#fff',
 }
 
-/* âââ Sub-components âââââââââââââââââââââââââââââââââââââ */
+/* ─── Sub-components ───────────────────────────────────── */
 function MetricCard({ label, value, sub, highlight, color, delay = 0 }: {
   label: string; value: string; sub?: string
   highlight?: boolean; color?: string; delay?: number
@@ -67,7 +67,7 @@ function RangeHints({ left, right }: { left: string; right: string }) {
   )
 }
 
-/* âââ Touch-safe range slider wrapper ââââââââââââââââââââ */
+/* ─── Touch-safe range slider wrapper ──────────────────── */
 function SafeRange(props: React.InputHTMLAttributes<HTMLInputElement> & { accentColor?: string }) {
   const { accentColor = C.orange, style, ...rest } = props
   const startY = useRef(0)
@@ -90,7 +90,7 @@ function SafeRange(props: React.InputHTMLAttributes<HTMLInputElement> & { accent
   )
 }
 
-/* âââ Input style ââââââââââââââââââââââââââââââââââââââââââ */
+/* ─── Input style ────────────────────────────────────────── */
 const inp = {
   flex: 1, minWidth: 0,
   padding: '10px 12px',
@@ -107,7 +107,7 @@ const lbl = {
   textTransform: 'uppercase' as const, letterSpacing: 0.3,
 }
 
-/* âââ Main component âââââââââââââââââââââââââââââââââââââââ */
+/* ─── Main component ─────────────────────────────────────── */
 export default function SimulatorScreen({ onFeedback }: { onFeedback: () => void }) {
   const [principal, setPrincipal] = useState('10.000.000')
   const [rate,      setRate]      = useState('7')
@@ -161,7 +161,7 @@ export default function SimulatorScreen({ onFeedback }: { onFeedback: () => void
   return (
     <div style={{ padding: '0 16px 40px' }}>
 
-      {/* âââ Metric cards ââââââââââââââââââââââââââââ */}
+      {/* ─── Metric cards ──────────────────────────── */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
         <MetricCard label="Modal Awal"  value={fmtIDR(pr)}           delay={0.05} />
         <MetricCard label="Saldo Akhir" value={fmtIDR(last.balance)} highlight delay={0.1} />
@@ -193,7 +193,7 @@ export default function SimulatorScreen({ onFeedback }: { onFeedback: () => void
           padding: '8px 14px', borderRadius: 20,
           boxShadow: '0 4px 12px rgba(22,163,74,0.30)',
         }}>
-          â² +{growth.toFixed(1)}%
+          ▲ +{growth.toFixed(1)}%
         </div>
       </div>
 
@@ -204,8 +204,8 @@ export default function SimulatorScreen({ onFeedback }: { onFeedback: () => void
         </div>
       )}
 
-      {/* âââ Modal Awal ââââââââââââââââââââââââââââââ */}
-      <SectionLabel icon="ð°" label="Modal Awal" color={C.orange} />
+      {/* ─── Modal Awal ────────────────────────────── */}
+      <SectionLabel icon="💰" label="Modal Awal" color={C.orange} />
 
       <div style={{ marginBottom: 16 }}>
         <label style={lbl}>Jumlah modal</label>
@@ -265,8 +265,8 @@ export default function SimulatorScreen({ onFeedback }: { onFeedback: () => void
         <RangeHints left={isBulan ? '1 bln' : '1 thn'} right={isBulan ? '120 bln' : '50 thn'} />
       </div>
 
-      {/* âââ Top-up section ââââââââââââââââââââââââââ */}
-      <SectionLabel icon="â" label="Top-up Rutin" color={C.blue} sub="(opsional)" />
+      {/* ─── Top-up section ────────────────────────── */}
+      <SectionLabel icon="➕" label="Top-up Rutin" color={C.blue} sub="(opsional)" />
 
       <div style={{ marginBottom: 12 }}>
         <label style={lbl}>Jumlah top-up per periode</label>
@@ -297,8 +297,8 @@ export default function SimulatorScreen({ onFeedback }: { onFeedback: () => void
         </select>
       </div>
 
-      {/* âââ Chart âââââââââââââââââââââââââââââââââââ */}
-      <SectionLabel icon="ð" label="Grafik Pertumbuhan" color={C.green} />
+      {/* ─── Chart ─────────────────────────────────── */}
+      <SectionLabel icon="📊" label="Grafik Pertumbuhan" color={C.green} />
 
       <div style={{
         background: C.card, borderRadius: 16, padding: '16px 8px 8px',
@@ -337,8 +337,8 @@ export default function SimulatorScreen({ onFeedback }: { onFeedback: () => void
         </div>
       </div>
 
-      {/* âââ Table âââââââââââââââââââââââââââââââââââ */}
-      <SectionLabel icon="ð" label="Detail per Periode" color="#8B5CF6" />
+      {/* ─── Table ─────────────────────────────────── */}
+      <SectionLabel icon="📋" label="Detail per Periode" color="#8B5CF6" />
 
       <div style={{
         overflowX: 'auto', border: `1px solid ${C.border}`,
@@ -358,9 +358,9 @@ export default function SimulatorScreen({ onFeedback }: { onFeedback: () => void
               <tr key={r.period} style={{ background: i % 2 ? '#FAFAF9' : 'transparent', borderBottom: `1px solid #F5F5F4` }}>
                 <td style={{ padding: '8px 10px', color: C.muted, fontWeight: 600 }}>{r.period === 0 ? '0 (awal)' : r.period}</td>
                 <td style={{ padding: '8px 10px', textAlign: 'right' }}>{fmtIDR(r.principal)}</td>
-                {hasTopup && <td style={{ padding: '8px 10px', textAlign: 'right', color: r.cumulativeTopup > 0 ? C.blue : C.muted }}>{r.period === 0 ? 'â' : fmtIDR(r.cumulativeTopup)}</td>}
-                <td style={{ padding: '8px 10px', textAlign: 'right', color: r.periodInterest > 0 ? C.green : C.muted }}>{r.period === 0 ? 'â' : fmtIDR(r.periodInterest)}</td>
-                <td style={{ padding: '8px 10px', textAlign: 'right', color: r.cumulativeInterest > 0 ? '#15803D' : C.muted, fontWeight: 700 }}>{r.period === 0 ? 'â' : fmtIDR(r.cumulativeInterest)}</td>
+                {hasTopup && <td style={{ padding: '8px 10px', textAlign: 'right', color: r.cumulativeTopup > 0 ? C.blue : C.muted }}>{r.period === 0 ? '—' : fmtIDR(r.cumulativeTopup)}</td>}
+                <td style={{ padding: '8px 10px', textAlign: 'right', color: r.periodInterest > 0 ? C.green : C.muted }}>{r.period === 0 ? '—' : fmtIDR(r.periodInterest)}</td>
+                <td style={{ padding: '8px 10px', textAlign: 'right', color: r.cumulativeInterest > 0 ? '#15803D' : C.muted, fontWeight: 700 }}>{r.period === 0 ? '—' : fmtIDR(r.cumulativeInterest)}</td>
                 <td style={{ padding: '8px 10px', textAlign: 'right', fontWeight: 800, color: C.text }}>{fmtIDR(r.balance)}</td>
               </tr>
             ))}
@@ -368,10 +368,10 @@ export default function SimulatorScreen({ onFeedback }: { onFeedback: () => void
         </table>
       </div>
 
-      {/* âââ AdSense âââââââââââââââââââââââââââââââââ */}
+      {/* ─── AdSense ───────────────────────────────── */}
       <AdSlot />
 
-      {/* âââ Share Card Button ââââââââââââââââââââââââ */}
+      {/* ─── Share Card Button ──────────────────────── */}
       <div style={{ marginTop: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
         <button
           className="btn-tap anim-pulseGlow"
@@ -386,9 +386,9 @@ export default function SimulatorScreen({ onFeedback }: { onFeedback: () => void
             letterSpacing: -0.2,
           }}
         >
-          <span style={{ fontSize: 20 }}>ð</span>
+          <span style={{ fontSize: 20 }}>🎉</span>
           Bagikan Hasil ke WhatsApp
-          <span style={{ fontSize: 20 }}>ð¬</span>
+          <span style={{ fontSize: 20 }}>💬</span>
         </button>
 
         <button
@@ -403,7 +403,7 @@ export default function SimulatorScreen({ onFeedback }: { onFeedback: () => void
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
           }}
         >
-          â­ Kasih Feedback
+          ⭐ Kasih Feedback
         </button>
       </div>
 
