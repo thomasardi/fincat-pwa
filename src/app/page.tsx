@@ -44,7 +44,7 @@ export default function Home() {
       position: 'relative',
     }}>
 
-      {/* âââ Header âââââââââââââââââââââââââââââââââââââ */}
+      {/* ─── Header ───────────────────────────────────── */}
       <div style={{
         background: 'rgba(255,255,255,0.95)',
         backdropFilter: 'blur(10px)',
@@ -61,7 +61,7 @@ export default function Home() {
           </div>
           <div>
             <p style={{ fontSize: 18, fontWeight: 900, margin: 0, color: '#F97316', letterSpacing: -0.5 }}>FinCat</p>
-            <p style={{ fontSize: 10, color: '#A8A29E', margin: 0, fontWeight: 600 }}>Investasi bareng si Kucing ð±</p>
+            <p style={{ fontSize: 10, color: '#A8A29E', margin: 0, fontWeight: 600 }}>Investasi bareng si Kucing 🐱</p>
           </div>
         </div>
 
@@ -78,11 +78,11 @@ export default function Home() {
             boxShadow: '0 2px 8px rgba(249,115,22,0.15)',
           }}
         >
-          â­ Feedback
+          ⭐ Feedback
         </button>
       </div>
 
-      {/* âââ Feature Slider âââââââââââââââââââââââââââââ */}
+      {/* ─── Feature Slider ───────────────────────────── */}
       <div style={{
         background: '#fff',
         paddingTop: 12, paddingBottom: 0,
@@ -98,7 +98,7 @@ export default function Home() {
         <FeatureSlider active={activeFeature} onSelect={handleSelect} />
       </div>
 
-      {/* âââ Content ââââââââââââââââââââââââââââââââââââ */}
+      {/* ─── Content ──────────────────────────────────── */}
       <div style={{ paddingTop: 16 }} className="anim-fadeInUp">
         {currentFeature?.available === true
           ? <SimulatorScreen onFeedback={() => setShowFeedback(true)} />
@@ -109,11 +109,11 @@ export default function Home() {
         }
       </div>
 
-      {/* âââ Modals âââââââââââââââââââââââââââââââââââââ */}
+      {/* ─── Modals ───────────────────────────────────── */}
       {showFeedback && <FeedbackModal onClose={() => setShowFeedback(false)} />}
       {showRequest  && <RequestModal featureId={requestFeatId} onClose={() => setShowRequest(false)} />}
 
-      {/* âââ Auto review popup (20s dwell) ââââââââââââââ */}
+      {/* ─── Auto review popup (20s dwell) ────────────── */}
       <ReviewPopup />
     </div>
   )
