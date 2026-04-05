@@ -52,7 +52,7 @@ export default function ModalShell({ children, onClose }: { children: ReactNode;
               fontWeight: 700, transition: 'background 0.15s',
             }}
           >
-            â
+            ✕
           </button>
         </div>
 
