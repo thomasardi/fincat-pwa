@@ -1,9 +1,8 @@
 import type { Metadata, Viewport } from 'next'
-import Script from 'next/script'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'FinCat â Investasi bareng si Kucing',
+  title: 'FinCat — Investasi bareng si Kucing',
   description: 'Simulasi bunga majemuk, compound interest calculator untuk melek finansial',
   manifest: '/manifest.json',
   appleWebApp: { capable: true, statusBarStyle: 'default', title: 'FinCat' },
@@ -25,16 +24,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
         <meta name="format-detection" content="telephone=no" />
-      </head>
-      <body style={{ margin: 0, padding: 0, background: '#FFFBF5', overflowX: 'hidden' }}>
-        {children}
-        <Script
+        {/* Google AdSense – must be in <head> for site verification */}
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1808788356045617"
           crossOrigin="anonymous"
-          strategy="lazyOnload"
-          id="adsense-script"
         />
+      </head>
+      <body style={{ margin: 0, padding: 0, background: '#FFFBF5', overflowX: 'hidden' }}>
+        {children}
       </body>
     </html>
   )
