@@ -81,7 +81,7 @@ export default function AdSlot() {
           color: '#D6D3D1',
           fontSize: 12,
         }}>
-          Â·Â·Â·
+          ···
         </div>
       )}
     </div>
