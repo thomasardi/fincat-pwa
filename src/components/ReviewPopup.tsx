@@ -54,7 +54,7 @@ export default function ReviewPopup() {
           <CatMascot mood="celebrating" size={90} />
         </div>
         <p style={{ fontSize: 20, fontWeight: 800, color: '#16A34A', margin: '16px 0 6px' }}>
-          Makasih banyak! ð
+          Makasih banyak! 🌟
         </p>
         <p style={{ color: '#78716C', fontSize: 14, margin: 0 }}>
           Penilaianmu sangat berarti!
@@ -72,7 +72,7 @@ export default function ReviewPopup() {
             <CatMascot mood="excited" size={72} />
           </div>
           <p style={{ fontSize: 18, fontWeight: 800, color: '#1C1917', margin: '10px 0 4px' }}>
-            Gimana FinCat-nya? â­
+            Gimana FinCat-nya? ⭐
           </p>
           <p style={{ fontSize: 13, color: '#78716C', margin: 0 }}>
             Butuh 10 detik doang, bantu kami berkembang!
@@ -97,7 +97,7 @@ export default function ReviewPopup() {
                   filter: active ? 'drop-shadow(0 2px 6px rgba(250,204,21,0.6))' : 'none',
                 }}
               >
-                {active ? 'â­' : 'â'}
+                {active ? '⭐' : '☆'}
               </button>
             )
           })}
@@ -140,7 +140,7 @@ export default function ReviewPopup() {
             transition: 'all 0.2s ease',
           }}
         >
-          {loading ? 'Mengirim...' : rating === 0 ? 'Pilih bintang dulu â­' : 'Kirim Penilaian ð'}
+          {loading ? 'Mengirim...' : rating === 0 ? 'Pilih bintang dulu ⭐' : 'Kirim Penilaian 🚀'}
         </button>
 
         <button
